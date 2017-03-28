@@ -1253,8 +1253,7 @@ def _solve(f, *symbols, **flags):
     If no method is implemented to solve the equation, a NotImplementedError
     will be raised. In the case that conversion of an expression to a Poly
     gives None a ValueError will be raised."""
-    f = simplify(f)
-
+ 
     not_impl_msg = "No algorithms are implemented to solve equation %s"
 
     if len(symbols) != 1:
@@ -2009,7 +2008,7 @@ def solve_linear(lhs, rhs=0, symbols=[], exclude=[]):
         dnewn_dxi = newn.diff(xi)
         # dnewn_dxi can be nonzero if it survives differentation by any
         # of its free symbols
-        free = dnewn_dxi.free_symbols
+        free = expand_mul(dnewn_dxi).free_symbols
         if dnewn_dxi and (not free or any(dnewn_dxi.diff(s) for s in free)):
             all_zero = False
             if dnewn_dxi is S.NaN:
